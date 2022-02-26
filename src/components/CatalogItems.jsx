@@ -1,43 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { catalogRequest } from './../actions/index';
+import { catalogRequest, catalogFilter, categoriesRequest, catalogMore } from './../actions/index';
 import { nanoid } from 'nanoid';
 import Preloader from './Preloader';
 import CatalogItem from './CatalogItem';
+import Categories from './Categories';
 
 function CatalogItems() {
-  const { items, loading, error } = useSelector(state => state.catalogItems);
+  const { items, loading, error, noButton } = useSelector(state => state.catalogItems);
+  const { items : categories, loading: categoriesLoading, error: categoriesError} = useSelector(state => state.categories);
+
   const dispatch = useDispatch();
+  
+  const [category, setCategory] = useState(null);
+  const [numberOfItems, setNumberOfItems] = useState(1);
 
   useEffect(() => dispatch(catalogRequest()), []);
-  
-  console.log(items);
+  useEffect(() => dispatch(categoriesRequest()), []);
+  useEffect(() => dispatch(catalogFilter(category)), [category]);
+
+  const handleCategoriesClick = (evt) => {
+    evt.preventDefault();
+    setCategory(evt.target.id);
+  }
+
+  const handleAllClick = (evt) => {
+    evt.preventDefault();
+    dispatch(catalogRequest());
+  }
+
+  const handleMoreClick = (evt) => {
+    evt.preventDefault();
+    setNumberOfItems(numberOfItems + 6);
+    dispatch(catalogMore(category, numberOfItems));
+  }
 
   return (
     <>
       <ul className="catalog-categories nav justify-content-center">
         <li className="nav-item">
-          <a className="nav-link active" href="/">Все</a>
+          <button className="nav-link active" onClick={handleAllClick}>Все</button>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/">Женская обувь</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/">Мужская обувь</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/">Обувь унисекс</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/">Детская обувь</a>
-        </li>
+        {categoriesLoading && !categoriesError ? <Preloader/> : categories.map(item => <Categories item={item} key={nanoid()} onClick={handleCategoriesClick}/>)}
       </ul>
       <div className="row">
         {loading && !error ? <Preloader/> : items.map(item => <CatalogItem item={item} key={nanoid()}/>)}
       </div>
       <div className="text-center">
-        <button className="btn btn-outline-primary">Загрузить ещё</button>
+        { !noButton ? <button className="btn btn-outline-primary" onClick={handleMoreClick}>Загрузить ещё</button> : false }
       </div>
     </>
   )

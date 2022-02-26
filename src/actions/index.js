@@ -8,9 +8,14 @@ import {
   CATALOG_REQUEST,
   CATALOG_FAILURE,
   CATALOG_SUCCESS,
-  MORE_REQUEST,
-  MORE_FAILURE,
-  MORE_SUCCESS
+  CATALOG_FILTER,
+  CATALOG_MORE,
+  CART_ADD,
+  CART_REMOVE,
+  CART_GET,
+  ITEM_REQUEST,
+  ITEM_SUCCESS,
+  ITEM_FAILURE
 } from './actionTypes';
 
 export const topSalesRequest = () => ({
@@ -42,13 +47,29 @@ export const catalogFailure = error => ({
 export const catalogSuccess = items => ({
   type: CATALOG_SUCCESS, payload: {items},
 });
+export const catalogFilter = id => ({
+  type: CATALOG_FILTER, payload: {id},
+});
+export const catalogMore = (id, offset) => ({
+  type: CATALOG_MORE, payload: {id, offset},
+});
 
-export const moreRequest = () => ({
-  type: MORE_REQUEST, payload: {}
+export const cartAdd = item => ({
+  type: CART_ADD, payload: {item},
 });
-export const moreFailure = error => ({
-  type: MORE_FAILURE, payload: {error},
+export const cartRemove = item => ({
+  type: CART_REMOVE, payload: {item},
 });
-export const moreSuccess = items => ({
-  type: MORE_SUCCESS, payload: {items},
+export const cartGet = () => ({
+  type: CART_GET, payload: {},
+});
+
+export const itemRequest = (id) => ({
+  type: ITEM_REQUEST, payload: {id}
+});
+export const itemFailure = error => ({
+  type: ITEM_FAILURE, payload: {error},
+});
+export const itemSuccess = item => ({
+  type: ITEM_SUCCESS, payload: {item},
 });

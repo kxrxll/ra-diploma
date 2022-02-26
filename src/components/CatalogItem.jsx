@@ -9,7 +9,7 @@ function CatalogItem({item}) {
         <div className="card-body">
           <p className="card-text">{item.title}</p>
           <p className="card-text">{item.price} ₽</p>
-          <a href={`/products/${item.id}`} className="btn btn-outline-primary">Заказать</a>
+          <a href={`/item/${item.id}`} className="btn btn-outline-primary">Заказать</a>
         </div>
       </div>
     </div>
