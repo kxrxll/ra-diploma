@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './../img/header-logo.png';
 
-function Header() {
+function Header(props) {
   return (
     <header className="container">
       <div className="row">
@@ -11,20 +11,7 @@ function Header() {
             <img src={logo} alt="Bosa Noga" />
             </a>
             <div className="collapase navbar-collapse" id="navbarMain">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  <a className="nav-link" href="/">Главная</a>
-                </li>
-                <li className="nav-item active">
-                  <a className="nav-link" href="/catalog">Каталог</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/about">О магазине</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/contacts">Контакты</a>
-                </li>
-              </ul>
+              {props.children}
               <div>
                 <div className="header-controls-pics">
                   <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>

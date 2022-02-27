@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Routes}  from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, NavLink}  from 'react-router-dom';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -14,8 +14,23 @@ import About from './components/About';
 function App() {
   return (
     <>
-      <Header/>
       <Router>
+        <Header>
+          <ul className="navbar-nav mr-auto">
+            <NavLink className='nav-item nav-link' to="/">
+              Главная
+            </NavLink>
+            <NavLink className='nav-item nav-link' to="/catalog">
+              Каталог
+            </NavLink>
+            <NavLink className='nav-item nav-link' to="/about">
+              О магазине
+            </NavLink>
+            <NavLink className='nav-item nav-link' to="/contacts">
+              Контакты
+            </NavLink>
+          </ul>
+        </Header>
         <Routes>
           <Route path="/" exact element={<Main/>} />
           <Route path="/catalog" exact element={<Catalog/>} />

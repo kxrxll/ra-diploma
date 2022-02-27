@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -40,7 +41,7 @@ function CatalogItems() {
     <>
       <ul className="catalog-categories nav justify-content-center">
         <li className="nav-item">
-          <button className="nav-link active" onClick={handleAllClick}>Все</button>
+          <a className="nav-link active" onClick={handleAllClick}>Все</a>
         </li>
         {categoriesLoading && !categoriesError ? <Preloader/> : categories.map(item => <Categories item={item} key={nanoid()} onClick={handleCategoriesClick}/>)}
       </ul>
