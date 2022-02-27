@@ -4,9 +4,10 @@ import topSalesRuducer from '../reducers/topSalesReducer';
 import catalogReducer from '../reducers/catalogReducer';
 import categoriesReducer from '../reducers/categoriesReducer';
 import itemReducer from '../reducers/itemReducer';
-import { topSalesEpic, catalogEpic, categoriesEpic, filterEpic, moreEpic, itemEpic } from '../epics';
+import cartReducer from '../reducers/cartReducer';
+import { topSalesEpic, catalogEpic, categoriesEpic, filterEpic, moreEpic, itemEpic, cartGetEpic, cartAddEpic, cartRemoveEpic } from '../epics';
 
-const reducer = combineReducers({ topSales: topSalesRuducer, catalogItems: catalogReducer, categories: categoriesReducer, item: itemReducer});
+const reducer = combineReducers({ topSales: topSalesRuducer, catalogItems: catalogReducer, categories: categoriesReducer, item: itemReducer, cart: cartReducer});
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const epic = combineEpics(
@@ -15,7 +16,10 @@ const epic = combineEpics(
   categoriesEpic,
   filterEpic,
   moreEpic,
-  itemEpic
+  itemEpic,
+  cartGetEpic,
+  cartAddEpic,
+  cartRemoveEpic
 );
 const epicMiddleware = createEpicMiddleware();
 

@@ -1,8 +1,12 @@
 /* eslint-disable jsx-a11y/scope */
 import React from 'react';
 import Banner from './Banner';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Cart() {
+  const items = useSelector(state => state.cart.items);
+  console.log(items);
+
   return (
     <main className="container">
       <div className="row">

@@ -5,7 +5,9 @@ const initialState = { items: [] };
 export default function catalogReducer(state = initialState, action) {
   switch (action.type) {
     case CART_ADD:
-      return { ...state, items: state.items.push(action.payload) };
+      const toAdd = action.payload;
+      const newItems = [...state.items, toAdd];
+      return { ...state, items: newItems };
     case CART_REMOVE:
       return { ...state, items: state.items.filter(item => item !== action.payload) };
     case CART_GET:

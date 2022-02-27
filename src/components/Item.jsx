@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Banner from './Banner';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { itemRequest } from '../actions';
+import { itemRequest, cartAdd } from '../actions';
 import { nanoid } from 'nanoid';
 import Preloader from './Preloader';
 
@@ -13,10 +13,38 @@ function Item() {
   const dispatch = useDispatch();
   
   const { item, loading, error } = useSelector(state => state.item);
+  const cart = useSelector(state => state.cart);
+
+  console.log(item);
 
   useEffect(()=> { dispatch(itemRequest(id))}, [])
 
   const sizes = item.sizes;
+
+  const [toAdd, setToAdd] = useState({number:1, size: null});
+  console.log(toAdd);
+
+  const handleAdd = () => {
+    console.log(item, toAdd.number, toAdd.size);
+    dispatch(cartAdd({
+      item,
+      number: toAdd.number,
+      size: toAdd.size
+    }));
+    console.log(cart);
+  }
+
+  const handleQuantity = (evt) => {
+    evt.preventDefault();
+    if (evt.target.textContent === '+') {
+      setToAdd({...toAdd, number: toAdd.number + 1});
+    } else setToAdd({...toAdd, number: toAdd.number - 1});
+  }
+
+  const handleSize = (evt) => {
+    evt.preventDefault();
+    setToAdd({...toAdd, size:evt.target.textContent});
+  }
 
   return (
     <main className="container">
@@ -61,17 +89,17 @@ function Item() {
                 <div className="text-center">
                   <p>Размеры в наличии: 
                     { sizes ? sizes.map(item => (
-                      <span key={nanoid()} className="catalog-item-size selected">{item.size}</span>
+                      item.avalible ? <span key={nanoid()} className="catalog-item-size selected" onClick={handleSize} style={{'cursor':'pointer'}}>{item.size}</span> : false
                     )) : false}
                   </p>
                   <p>Количество: <span className="btn-group btn-group-sm pl-2">
-                    <button className="btn btn-secondary">-</button>
-                    <span className="btn btn-outline-primary">1</span>
-                    <button className="btn btn-secondary">+</button>
+                    <button className="btn btn-secondary" onClick={handleQuantity}>-</button>
+                    <span className="btn btn-outline-primary">{toAdd.number}</span>
+                    <button className="btn btn-secondary" onClick={handleQuantity}>+</button>
                   </span>
                   </p>
                 </div>
-                <button className="btn btn-danger btn-block btn-lg">В корзину</button>
+                <button className="btn btn-danger btn-block btn-lg" onClick={handleAdd}>В корзину</button>
               </div>
             </div>
           </section>}
